@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Financial Reports | Budget Tracker</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+</head>
+<body>
+<header>
+    <div class="container">
+        <div class="logo">
+            <h1><i class="fa-solid fa-wallet"></i> Budget Tracker</h1>
+        </div>
+        <nav>
+            <ul>
+                <li><a href="/">Home</a></li>
+                <li><a href="/expenses">Expenses</a></li>
+                <li><a href="/budgets">Budgets</a></li>
+                <li><a href="/goals">Goals</a></li>
+                <li><a href="/reports" class="active">Reports</a></li>
+            </ul>
+        </nav>
+    </div>
+</header>
+
+<main class="container">
+    <div class="dashboard-header">
+        <h2><i class="fa-solid fa-file-lines"></i> Financial Reports</h2>
+        <p>Write insights or summaries about your budget, expenses, or goals.</p>
+    </div>
+
+    <div class="form-container">
+        <form th:action="@{/generateReport}" method="post">
+            <div class="form-group">
+                <label for="type">Report Type</label>
+                <input type="text" id="type" name="type" class="form-control" required />
+            </div>
+            <div class="form-group">
+                <label for="content">Report Content</label>
+                <textarea id="content" name="content" class="form-control" required></textarea>
+            </div>
+            <button type="submit" class="btn primary-btn"><i class="fa-solid fa-file-circle-plus"></i> Generate Report</button>
+        </form>
+    </div>
+
+    <h3 style="margin-top: 40px;">Generated Reports</h3>
+    <div class="report-actions" style="margin-top: 30px;">
+        <a th:href="@{/reports/pdf}" class="btn primary-btn">
+            <i class="fa-solid fa-file-pdf"></i> Download PDF Summary
+        </a>
+        <a th:href="@{/reports/export}" class="btn secondary-btn">
+            <i class="fa-solid fa-file-csv"></i> Export Expenses (CSV)
+        </a>
+    </div>
+    
+    
+    <table class="data-table">
+        <thead>
+        <tr>
+            <th>Type</th>
+            <th>Date</th>
+            <th>Content</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="report : ${reports}">
+            <td th:text="${report.type}"></td>
+            <td th:text="${report.generatedOn}"></td>
+            <td th:text="${report.content}"></td>
+        </tr>
+        </tbody>
+    </table>
+</main>
+
+<footer>
+    <div class="container">
+        <div class="footer-content">
+            <div class="footer-logo">
+                <h2><i class="fa-solid fa-wallet"></i> Budget Tracker</h2>
+                <p>Plan • Save • Succeed</p>
+            </div>
+            <div class="footer-links">
+                <h3>Quick Links</h3>
+                <ul>
+                    <li><a href="/">Dashboard</a></li>
+                    <li><a href="/expenses">Expenses</a></li>
+                    <li><a href="/budgets">Budgets</a></li>
+                    <li><a href="/goals">Goals</a></li>
+                </ul>
+            </div>
+            <div class="footer-contact">
+                <h3>Developed by</h3>
+                <p>Chaitanya N</p>
+                <p>Dishanth K</p>
+                <p>Disha Prakasha</p>
+                <p>Chetan</p>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p> OOAD Mini Project- Budget Tracker | Made with ❤️ @ PESU</p>
+        </div>
+    </div>
+</footer>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/js/all.min.js"></script>

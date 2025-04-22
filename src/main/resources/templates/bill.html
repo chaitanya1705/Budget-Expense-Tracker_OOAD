@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bill Manager | Budget Tracker</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+</head>
+<body>
+<header>
+    <div class="container">
+        <div class="logo">
+            <h1><i class="fa-solid fa-wallet"></i> Budget Tracker</h1>
+        </div>
+        <nav>
+            <ul>
+                <li><a href="/">Home</a></li>
+                <li><a href="/expenses">Expenses</a></li>
+                <li><a href="/budgets">Budgets</a></li>
+                <li><a href="/bills" class="active">Bills</a></li>
+            </ul>
+        </nav>
+    </div>
+</header>
+
+<main class="container">
+    <div class="dashboard-header">
+        <h2><i class="fa-solid fa-file-invoice-dollar"></i> Manage Bills</h2>
+        <p>Track due bills, pay status, and recurring payments.</p>
+    </div>
+
+    <div class="form-container">
+        <form th:action="@{/addBill}" method="post" th:object="${bill}">
+            <div class="form-group">
+                <label>Bill Name</label>
+                <input type="text" th:field="*{name}" required class="form-control"/>
+            </div>
+            <div class="form-group">
+                <label>Amount</label>
+                <input type="number" step="0.01" th:field="*{amount}" required class="form-control"/>
+            </div>
+            <div class="form-group">
+                <label>Due Date</label>
+                <input type="date" th:field="*{dueDate}" required class="form-control"/>
+            </div>
+            <div class="form-group">
+                <label>Recurring</label>
+                <input type="checkbox" th:field="*{recurring}" />
+                <select th:field="*{recurrenceType}" class="form-control">
+                    <option value="NONE">None</option>
+                    <option value="MONTHLY">Monthly</option>
+                    <option value="QUARTERLY">Quarterly</option>
+                    <option value="ANNUAL">Annual</option>
+                </select>
+            </div>
+            <button type="submit" class="btn primary-btn"><i class="fa-solid fa-plus"></i> Add Bill</button>
+        </form>
+    </div>
+
+    <h3 style="margin-top: 40px;">Upcoming & Overdue Bills</h3>
+    <table class="data-table">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Due Date</th>
+                <th>Amount</th>
+                <th>Status</th>
+                <th>Recurring</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="bill : ${bills}">
+                <td th:text="${bill.name}"></td>
+                <td th:text="${bill.dueDate}"></td>
+                <td th:text="${bill.amount}"></td>
+                <td>
+                    <span th:if="${bill.paid}" style="color:green;">Paid</span>
+                    <span th:if="${!bill.paid and bill.overdue}" style="color:red;">Overdue</span>
+                    <span th:if="${!bill.paid and !bill.overdue}" style="color:orange;">Upcoming</span>
+                </td>
+                <td th:text="${bill.recurring ? bill.recurrenceType : 'No'}"></td>
+                <td>
+                    <a th:href="@{'/markBillPaid/' + ${bill.id}}" class="btn primary-btn">Mark Paid</a>
+                    <a th:href="@{'/deleteBill/' + ${bill.id}}" class="btn secondary-btn"><i class="fa-solid fa-trash"></i> Delete</a>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</main>
+
+<footer>
+    <div class="container">
+        <div class="footer-bottom">
+            <p> OOAD Mini Project - Budget Tracker | Made with ❤️ @ PESU</p>
+        </div>
+    </div>
+</footer>
+</body>
+</html>

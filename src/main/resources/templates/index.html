@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Budget Tracker Dashboard</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" integrity="sha512-papLMX8ZwIw44wtd1VV3KRb4jLUpV1Mz7M9hKnmz1IG9+9WD3UV3r3gfv+GLixFVAsA0vCszZz5XJHdfz5uz0g==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <style>
+        .cta-buttons a {
+            display: inline-block;
+            transform: translateY(0);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .cta-buttons a:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <div class="logo">
+                <h1><i class="fa-solid fa-wallet"></i> Budget Tracker</h1>
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="/">Home</a></li>
+                    <li><a href="/expenses">Expenses</a></li>
+                    <li><a href="/budgets">Budgets</a></li>
+                    <li><a href="/goals">Goals</a></li>
+                    <li><a href="/bills">Bills</a></li>
+                    <li><a href="/reports">Reports</a></li>
+                    <li><a href="/export-expenses" target="_blank">Export CSV</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+    <main>
+        <section class="hero">
+            <div class="container">
+                <div class="hero-content">
+                    <h2>Welcome to Your Financial Command Center 💰</h2>
+                    <p>Track spending, set budgets, monitor goals, and generate insights — all in one place.</p>
+                    <div class="cta-buttons">
+                        <a href="/expenses" class="btn primary-btn">Manage Expenses</a>
+                        <a href="/budgets" class="btn secondary-btn">Plan Budgets</a>
+                        <a href="/goals" class="btn primary-btn">Track Goals</a>
+                        <a href="/bills" class="btn primary-btn">Manage Bills</a>
+                        <a href="/reports" class="btn secondary-btn">View Reports</a>
+                        
+                    </div>
+                </div>
+                <div class="hero-image">
+                    <img src="/images/money.svg" alt="Dashboard Illustration">
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-logo">
+                    <h2>Budget Tracker</h2>
+                    <p>Plan • Save • Succeed</p>
+                </div>
+                <div class="footer-links">
+                    <h3>Quick Links</h3>
+                    <ul>
+                        <li><a href="/expenses">Expenses</a></li>
+                        <li><a href="/budgets">Budgets</a></li>
+                        <li><a href="/goals">Goals</a></li>
+                        <li><a href="/bills">Bills</a></li>
+                        <li><a href="/reports">Reports</a></li>
+                    </ul>
+                </div>
+                <div class="footer-contact">
+                    <h3>Developed by</h3>
+                    <p>Chaitanya N</p>
+                    <p>Dishanth K</p>
+                    <p>Disha Prakasha</p>
+                    <p>Chetan</p>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p> OOAD Mini Project- Budget Tracker | Made with ❤️ @ PESU</p>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>

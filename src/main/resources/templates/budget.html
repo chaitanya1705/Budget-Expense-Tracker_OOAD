@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Budget Planner | Budget Tracker</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    
+</head>
+<body>
+<header>
+    <div class="container">
+        <div class="logo">
+            <h1><i class="fa-solid fa-wallet"></i> Budget Tracker</h1>
+        </div>
+        <nav>
+            <ul>
+                <li><a href="/">Home</a></li>
+                <li><a href="/expenses">Expenses</a></li>
+                <li><a href="/budgets" class="active">Budgets</a></li>
+                <li><a href="/goals">Goals</a></li>
+                <li><a href="/reports">Reports</a></li>
+            </ul>
+        </nav>
+    </div>
+</header>
+
+<main class="container">
+    <div class="dashboard-header">
+        <h2><i class="fa-solid fa-sliders"></i> Monthly Budget Planner</h2>
+        <p>Set and manage your monthly budget categories and limits.</p>
+    </div>
+
+    <!-- Monthly Budget Creation Form -->
+    <div class="form-container">
+        <h3>Create Monthly Budget</h3>
+        <form th:action="@{/addBudget}" method="post" th:object="${budget}">
+            <label>Budget Name</label>
+            <input type="text" th:field="*{name}" placeholder="Budget Name" required class="form-control" />
+        
+            <label>Month</label>
+            <input type="number" th:field="*{month}" placeholder="Month (1-12)" min="1" max="12" required class="form-control" />
+        
+            <label>Year</label>
+            <input type="number" th:field="*{year}" placeholder="Year (e.g., 2025)" required class="form-control" />
+        
+            <label>Total Limit</label>
+            <input type="number" step="0.01" th:field="*{totalLimit}" placeholder="Total Limit" required class="form-control" />
+        
+            <input type="hidden" th:field="*{userId}" th:value="1" />
+            <button type="submit" class="btn primary-btn">Create Budget</button>
+        </form>
+    </div>
+
+    <!-- Budget Item Addition Form -->
+    <div class="form-container" style="margin-top: 30px;">
+        <h3>Assign Category Limit</h3>
+        <form th:action="@{/addBudgetItem}" method="post">
+            <select name="budgetId" class="form-control" required>
+                <option th:each="b : ${budgets}" th:value="${b.id}" th:text="${b.name}">Budget Option</option>
+            </select>
+            <select name="categoryId" class="form-control" required>
+                <option th:each="c : ${categories}" th:value="${c.id}" th:text="${c.name}">Category Option</option>
+            </select>
+            <input type="number" step="0.01" name="amount" class="form-control" placeholder="Limit Amount" required />
+            <button type="submit" class="btn primary-btn"><i class="fa-solid fa-check"></i> Set Budget</button>
+        </form>
+    </div>
+
+    <!-- Budget Table -->
+    <h3 style="margin-top: 40px;">Current Budgets</h3>
+    <table class="data-table">
+        <thead>
+        <tr>
+            <th>Budget</th>
+            <th>Category</th>
+            <th>Limit</th>
+            <th>Spent</th>
+            <th>Remaining</th>
+            <th>Status</th>
+            <th>Action</th>
+        </tr>
+        </thead>
+        <tbody>
+        <!-- For each budget -->
+        <th:block th:each="budget : ${budgets}">
+            <tr>
+                <td colspan="7" style="font-weight: bold; background: #f0f0f0;" th:text="${budget.name}">Budget Name</td>
+            </tr>
+            <!-- For each budget item in this specific budget -->
+            <tr th:each="item : ${budget.budgetItems}">
+                <td></td>
+                <td th:text="${item.category != null ? item.category.name : 'N/A'}">Category</td>
+                <td th:text="${#numbers.formatDecimal(item.amount, 1, 2)}">0.00</td>
+                <td th:text="${#numbers.formatDecimal(item.spentAmount, 1, 2)}">0.00</td>
+                <td th:text="${#numbers.formatDecimal(item.remainingAmount, 1, 2)}">0.00</td>
+                <td>
+                    <span th:if="${item.isExceeded()}" style="color: red;">⚠ Exceeded</span>
+                    <span th:if="${!item.isExceeded() and item.getPercentageSpent() > 80}" style="color: orange;">⚠ Near Limit</span>
+                    <span th:if="${item.getPercentageSpent() <= 80}" style="color: green;">✓ OK</span>
+                </td>
+                <td>
+                    <a th:href="@{'/deleteBudgetItem/' + ${item.id}}" class="btn secondary-btn">
+                        <i class="fa-solid fa-trash"></i> Delete
+                    </a>
+                </td>
+            </tr>
+            <!-- If no budget items exist for this budget -->
+            <tr th:if="${budget.budgetItems.empty}">
+                <td></td>
+                <td colspan="6" style="text-align: center; font-style: italic;">No budget items assigned yet</td>
+            </tr>
+        </th:block>
+        </tbody>
+    </table>
+
+    <!-- Chart -->
+    <!--section style="margin-top: 40px;">
+        <h3>Category-wise Spending Chart</h3>
+        <canvas id="budgetChart" width="400" height="400"></canvas>
+    
+        <script th:inline="javascript">
+        /*<![CDATA[*/
+            const chartData = [[${chartDataJson}]];
+        /*]]>*/
+        </script>
+    </section-->
+    
+</main>
+
+<footer>
+    <div class="container">
+        <div class="footer-bottom">
+            <p>OOAD Mini Project - Budget Tracker | Made with ❤️ @ PESU</p>
+        </div>
+    </div>
+</footer>
+
+<script th:src="@{/js/chart-handler.js}"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/js/all.min.js"></script>
+</body>
+</html>

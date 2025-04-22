@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Track Goals | Budget Tracker</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+    <style>
+        .progress-bar {
+            background-color: #ddd;
+            border-radius: 20px;
+            overflow: hidden;
+            height: 20px;
+            width: 100%;
+        }
+
+        .progress-bar-fill {
+            height: 100%;
+            background-color: #4caf50;
+            text-align: center;
+            color: white;
+            white-space: nowrap;
+            padding: 0 5px;
+        }
+    </style>
+</head>
+<body>
+<header>
+    <div class="container">
+        <div class="logo">
+            <h1><i class="fa-solid fa-wallet"></i> Budget Tracker</h1>
+        </div>
+        <nav>
+            <ul>
+                <li><a href="/">Home</a></li>
+                <li><a href="/expenses">Expenses</a></li>
+                <li><a href="/budgets">Budgets</a></li>
+                <li><a href="/goals" class="active">Goals</a></li>
+                <li><a href="/reports">Reports</a></li>
+            </ul>
+        </nav>
+    </div>
+</header>
+
+<main class="container">
+    <div class="dashboard-header">
+        <h2><i class="fa-solid fa-bullseye"></i> Savings & Investment Goals</h2>
+        <p>Define your goals and track your savings progress over time.</p>
+    </div>
+
+    <div class="form-container">
+        <form th:action="@{/addGoal}" method="post" th:object="${goal}">
+            <div class="form-group">
+                <label for="goalName">Goal Name</label>
+                <input type="text" id="goalName" th:field="*{goalName}" class="form-control" required />
+            </div>
+            <div class="form-group">
+                <label for="description">Description</label>
+                <input type="text" id="description" th:field="*{description}" class="form-control" required />
+            </div>
+            <div class="form-group">
+                <label for="targetAmount">Target Amount</label>
+                <input type="number" step="0.01" id="targetAmount" th:field="*{targetAmount}" class="form-control" required />
+            </div>
+            <div class="form-group">
+                <label for="targetDate">Target Date</label>
+                <input type="date" id="targetDate" th:field="*{targetDate}" class="form-control" required />
+            </div>
+            <button type="submit" class="btn primary-btn"><i class="fa-solid fa-plus"></i> Add Goal</button>
+        </form>
+    </div>
+
+    <h3 style="margin-top: 40px;">Your Goals</h3>
+    <table class="data-table">
+        <thead>
+        <tr>
+            <th>Goal</th>
+            <th>Description</th>
+            <th>Target</th>
+            <th>Saved</th>
+            <th>Progress</th>
+            <th>Remaining</th>
+            <th>Days Left</th>
+            <th>Add Savings</th>
+            <th>Actions</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="goal : ${goals}">
+            <td th:text="${goal.goalName}"></td>
+            <td th:text="${goal.description}"></td>
+            <td th:text="${goal.targetAmount}"></td>
+            <td th:text="${goal.savedAmount}"></td>
+            <td>
+                <div class="progress-bar">
+                    <div class="progress-bar-fill" th:style="'width:' + ${goal.progressPercentage} + '%'" 
+                         th:text="${goal.progressPercentage + '%'}"></div>
+                </div>
+            </td>
+            <td th:text="${goal.remainingAmount}"></td>
+            <td th:text="${goal.daysLeft} + ' days'"></td>
+            <td>
+                <form th:action="@{'/updateSaved/' + ${goal.id}}" method="post">
+                    <input type="number" step="0.01" name="amount" class="form-control" required />
+                    <button type="submit" class="btn secondary-btn"><i class="fa-solid fa-plus-circle"></i> Add</button>
+                </form>
+            </td>
+            <td>
+                <a th:href="@{'/deleteGoal/' + ${goal.id}}" class="btn secondary-btn">
+                    <i class="fa-solid fa-trash"></i> Delete
+                </a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</main>
+
+<footer>
+    <div class="container">
+        <div class="footer-content">
+            <div class="footer-logo">
+                <h2><i class="fa-solid fa-wallet"></i> Budget Tracker</h2>
+                <p>Plan • Save • Succeed</p>
+            </div>
+            <div class="footer-links">
+                <h3>Quick Links</h3>
+                <ul>
+                    <li><a href="/">Dashboard</a></li>
+                    <li><a href="/expenses">Expenses</a></li>
+                    <li><a href="/budgets">Budgets</a></li>
+                    <li><a href="/reports">Reports</a></li>
+                </ul>
+            </div>
+            <div class="footer-contact">
+                <h3>Developed by</h3>
+                <p>Chaitanya N</p>
+                <p>Dishanth K</p>
+                <p>Disha Prakasha</p>
+                <p>Chetan</p>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p> OOAD Mini Project- Budget Tracker | Made with ❤️ @ PESU</p>
+        </div>
+    </div>
+</footer>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/js/all.min.js"></script>
+</body>
+</html>
