@@ -11,22 +11,6 @@ A modern, full-featured **Budget & Expense Tracker** application built using:
 
 ---
 
-## 🧠 OOAD Features
-| Design Pattern | File(s) Implemented |
-|----------------|---------------------|
-| **Strategy**   | `BudgetStrategy.java`, `StrictBudgetStrategy.java` |
-| **Observer**   | `BudgetNotifier.java`, `BudgetAlertService.java` |
-| **Singleton**  | `DatabaseManager.java` |
-| **DAO**        | Spring Data JPA Repositories |
-
-| Design Principle | Application |
-|------------------|-------------|
-| SRP              | One class per responsibility |
-| OCP              | `BudgetStrategy` open for extension |
-| DIP              | Interfaces used for services/observers |
-| LSP              | Strategy implementations interchangeable |
-
----
 
 ## ✅ Step-by-Step Setup Instructions
 
@@ -112,12 +96,12 @@ Test files:
 ---
 
 ## 👥 Team Responsibilities
-| Member        | Major Feature      | Minor Feature  | Design Pattern |
-|---------------|--------------------|----------------|----------------|
-| Disha Prakasha| Daily Expense      | Alerts         | Observer       |
-| Dishanth K    | Budget Planner     | Charts         | Strategy       |
-| Chaitanya N   | Goals Tracker      | Goal Progress  | Singleton      |
-| Chetan        | Report System      | CSV Export     | DAO            |
+| Member        | Major Feature      | Minor Feature  |
+|---------------|--------------------|----------------|
+| Disha Prakasha| Daily Expense      | Alerts         | 
+| Dishanth K    | Bill Manager       | Charts         | 
+| Chaitanya N   | Goals Tracker      | Goal Progress  | 
+| Chetan        | Budget Planner     | CSV Export     | 
 
 ---
 
@@ -138,11 +122,4 @@ src/
     └── application.properties
 ```
 
----
 
-## 📜 License
-MIT
-
----
-
-Happy Budgeting! 🎯
